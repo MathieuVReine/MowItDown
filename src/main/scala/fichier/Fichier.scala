@@ -7,7 +7,10 @@ import main.scala.instruction._
 import main.scala.orientation._
 import main.scala.tondeuse._
 
-//
+/**
+ * La classe fichier contenant les lignes correspondant à la pelouse, les tonedeuses et les instructions.
+ * @param path le chemin vers le fichier à lire.
+ */
 
 class Fichier(path : String) {
   
@@ -16,7 +19,10 @@ class Fichier(path : String) {
   val tondeuses: List[Tondeuse] = getTondeuses
   val instructions: List[List[Instruction.Value]] = getInstructions
 
-
+  /**
+   * Lit le fichier correspondant au path et renvoie les lignes sous forme de liste
+   * @return Liste des lignes du fichier correspondant au path
+   */
   def lectureFichier() : List[String] = {
     val bufferedSource = Source.fromFile(this.path)
     val lines = bufferedSource.getLines().toList
@@ -24,6 +30,11 @@ class Fichier(path : String) {
     lines
   }
 
+  /**
+   * Récupère les coordonnées de la pelouse et renvoie une instance de la classe Pelouse.
+   * Si le fichier d'entrée est vide, renvoie None
+   * @return Option[Pelouse], Contenant l'objet correspondant à la pelouse.
+   */
   def getPelouse: Option[Pelouse] = {
     if (this.lignes.nonEmpty) {
       val lignePelouse = this.lignes.head.split(" ")
@@ -41,6 +52,11 @@ class Fichier(path : String) {
     }
   }
 
+  /**
+   * Renvoie la liste des tondeuses contenues dans le fichier d'entrée.
+   * Si aucune tondeuse n'est contenue dans le fichier, renvoie une liste vide.
+   * @return Liste des tondeuses.
+   */
   def getTondeuses: List[Tondeuse] = {
     if(this.lignes.nonEmpty && this.lignes.length > 1) {
       var listeTondeuses = this.lignes
@@ -56,7 +72,12 @@ class Fichier(path : String) {
     }
     else List.empty[Tondeuse]
   }
-  
+
+  /**
+   * Renvoie la liste des instructions contenues dans le fichier.
+   * Si aucune instruction n'est dans le fichier, renvoie une liste vide.
+   * @return Liste des instructions
+   */
   def getInstructions: List[List[Instruction.Value]] = {
     if(this.lignes.nonEmpty && this.lignes.length > 2) {
       var listeInstructions = this.lignes

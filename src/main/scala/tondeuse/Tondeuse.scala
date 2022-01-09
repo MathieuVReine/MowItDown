@@ -4,10 +4,23 @@ import main.scala.coordonnees._
 import main.scala.orientation._
 import main.scala.instruction._
 
+/**
+ * La classe des Tondeuses contenant les informations sur les tondeuses.
+ * @param coordonnees Les coordonnees initiales de la tondeuse.
+ * @param orientation L'orientation initiale de la tondeuse.
+ */
 class Tondeuse(coordonnees: Coordonnees, var orientation : Orientation.Value) {
 
+  /**
+   *
+   * @return String contenant les coordonnees et l'orientation de la tondeuse.
+   */
   def positionActuelle: String = this.coordonnees.x.toString + " " + this.coordonnees.y.toString + " " + this.orientation.toString
 
+  /**
+   *
+   * @return Tuple contenant les orientations possibles pour la tondeuse suivant son orientation actuelle.
+   */
   def rotation(): (Orientation.Value, Orientation.Value) = {
     this.orientation match {
       case Orientation.N => Tuple2(Orientation.W, Orientation.E)
@@ -17,6 +30,10 @@ class Tondeuse(coordonnees: Coordonnees, var orientation : Orientation.Value) {
     }
   }
 
+  /**
+   *
+   * @param coordonneesPelouse : Les coordonnees de l'angle supérieur droit de la pelouse.
+   */
   def deplacement(coordonneesPelouse: Coordonnees): Unit = {
     this.orientation match {
       case Orientation.N => if(this.coordonnees.y < coordonneesPelouse.y) this.coordonnees.y += 1
@@ -26,6 +43,11 @@ class Tondeuse(coordonnees: Coordonnees, var orientation : Orientation.Value) {
     }
   }
 
+  /**
+   * Effectue les opérations correspondant à l'instruction lue.
+   * @param instruction : l'instruction devant être interprétée par la tondeuse.
+   * @param coordonneesPelouse : Les coordonnees de l'angle supérieur droit de la pelouse.
+   */
   def lectureInstruction(instruction: Instruction.Value, coordonneesPelouse: Coordonnees): Unit = {
     instruction match {
       case Instruction.A => this.deplacement(coordonneesPelouse)
